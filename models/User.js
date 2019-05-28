@@ -5,18 +5,26 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  password: {
-    type: String,
-    default: '123456'
-  },
   balance: {
     type: Number,
     default: 0
   },
-  date: {
-    type: Date,
-    default: Date.now
-  }
+  records: [
+    {
+      topup: {
+        type: Number,
+        default: 0
+      },
+      meal: {
+        type: Number,
+        default: 0
+      },
+      date: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ]
 })
 
 module.exports = User = mongoose.model('user', UserSchema)

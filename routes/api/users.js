@@ -73,30 +73,40 @@ router.delete('/', auth, async (req, res) => {
   try {
     await User.findOneAndDelete({ name: req.body.name });
 
-    res.json({ msg: 'User deleted' })
+    res.json({ msg: 'User deleted' });
   } catch (err) {
-    console.error(err.message)
-    res.status(500).send('Error Error')
+    console.error(err.message);
+    res.status(500).send('Error Error');
   }
-})
+});
 
 // @route   GET api/users/me
-// @desc    get user recent expenses 
+// @desc    get user recent expenses
 // @access  private
 
 router.get('/me', auth, async (req, res) => {
+  let { pageNum } = req.body;
+  if (pageNum) {
+    pageNum = (Number(pageNum) - 1) * 10;
+  }
   try {
-    const user = await User.findOne({ name: req.body.name }).sort({ _id: 1 }).limit(10)
+    const user = await User.findOne(
+      { name: req.body.name },
+      {
+        name: 1,
+        balance: 1,
+        records: { $slice: [(0 + Number(pageNum)) * 10, 10] }
+      }
+    );
 
     if (!user) {
       return res.status(400).json({ msg: '该用户不存在' });
     }
-    res.json(user)
+    res.json(user);
   } catch (err) {
-    console.error(err.message)
-    res.status(500).send('Server error')
+    console.error(err.message);
+    res.status(500).send('Server error');
   }
-})
-
+});
 
 module.exports = router;

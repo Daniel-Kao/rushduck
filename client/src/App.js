@@ -1,11 +1,11 @@
 import React from 'react';
+import Landing from "./components/layout/Landing";
 import './App.css';
-import { Button } from 'antd'
 
 function App() {
   return (
     <div className="App">
-      <Button type='primary'>adsasds</Button>
+      <Landing />
     </div>
   );
 }

@@ -1,15 +1,13 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import './App.css';
-import Login from './components/auth/Login';
-import Landing from './components/layout/Landing';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Button } from 'antd'
 
-const App = () => (
-  <Router>
-    <Fragment>
-      <Landing />
-    </Fragment>
-  </Router>
-);
+function App() {
+  return (
+    <div className="App">
+      <Button type='primary'>adsasds</Button>
+    </div>
+  );
+}
 
 export default App;

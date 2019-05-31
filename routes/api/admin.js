@@ -75,7 +75,7 @@ router.post(
   }
 );
 
-// @route   POST api/admin
+// @route   POST api/admin/login
 // @desc    login administer
 // @access  Public
 

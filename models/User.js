@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
       },
       date: {
         type: Date,
-        default: Date.now
+        default: +new Date() + 8 * 60 * 60 * 1000
       }
     }
   ]

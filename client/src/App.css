@@ -11,14 +11,6 @@
   padding: 0;
 }
 
-body {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
-  line-height: 1.6;
-  background-color: #fff;
-  color: #333;
-}
-
 a {
   color: var(--primary-color);
   text-decoration: none;

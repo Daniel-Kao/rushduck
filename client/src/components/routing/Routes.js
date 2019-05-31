@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Login from '../auth/Login';
+import Dashboard from "../table/Dashboard";
 
 
 const Routes = () => {
@@ -8,6 +9,7 @@ const Routes = () => {
     <section className='container'>
       <Switch>
         <Route exact path='/login' component={Login} />
+        <Route exact path='/dashboard' component={Dashboard} />
       </Switch>
     </section>
   );

@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const moment = require('moment');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator/check');
 
 const User = require('../../models/User');
 
 // @route   POST api/users
-// @desc    create user
+// @desc    create or update user
 // @access  Public
 
 router.post(
@@ -57,7 +58,19 @@ router.post(
 
 router.get('/', auth, async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.aggregate([
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          balance: 1,
+          lastMeal: { $arrayElemAt: ['$records', 0] }
+        }
+      }
+    ]);
+    if (!users) {
+      return;
+    }
     res.json(users);
   } catch (err) {
     console.error(err.message);
@@ -81,7 +94,7 @@ router.delete('/', auth, async (req, res) => {
 });
 
 // @route   GET api/users/me
-// @desc    get user recent expenses
+// @desc    get one user's recent expenses
 // @access  private
 
 router.get('/me', auth, async (req, res) => {

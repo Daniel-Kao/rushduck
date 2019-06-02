@@ -101,17 +101,13 @@ router.post(
       let admin = await Admin.findOne({ name });
 
       if (!admin) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'Invalid credentials' }] });
+        return res.status(400).json({ errors: [{ msg: '用户名或密码错误' }] });
       }
 
       const isMatch = await bcrypt.compare(password, admin.password);
 
       if (!isMatch) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'Invalid credentials' }] });
+        return res.status(400).json({ errors: [{ msg: '用户名或密码错误' }] });
       }
       const payload = {
         admin: {

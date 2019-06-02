@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { LOGIN_FAIL, LOGIN_SUCCESS, ADMIN_LOADED, AUTH_ERROR } from './types';
 import setAuthToken from '../utils/setAuthToken';
+import { message } from 'antd';
 
 export const loadAdmin = () => async dispatch => {
   if (localStorage.token) {
@@ -40,6 +41,11 @@ export const login = (name, password) => async dispatch => {
 
     dispatch(loadAdmin());
   } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => message.error(error.msg));
+    }
+    console.log(errors);
     dispatch({
       type: LOGIN_FAIL
     });

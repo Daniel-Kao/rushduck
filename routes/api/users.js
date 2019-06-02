@@ -64,7 +64,8 @@ router.get('/', auth, async (req, res) => {
           _id: 1,
           name: 1,
           balance: 1,
-          lastMeal: { $arrayElemAt: ['$records', 0] }
+          lastMeal: { $arrayElemAt: ['$records', 0] },
+          key: '$_id'
         }
       }
     ]);

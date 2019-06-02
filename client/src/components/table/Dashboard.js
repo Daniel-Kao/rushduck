@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { getUsers } from '../../actions/users';
-import MaterialTable from 'material-table';
-import Modal from '@material-ui/core/Modal';
-import FormModal from './FormModal';
+import { Table } from 'antd';
+import { userListSelector } from '../../utils/reselector';
 
 import { dashboardColumns } from '../../utils/columns';
-import { localizationConfig } from '../../utils/localization';
 
 function Dashboard({ getUsers, users }) {
   const [state, setModalState] = useState({
     isModalOpen: false
   });
 
+  console.log(users);
   const { isModalOpen } = state;
   useEffect(() => {
     getUsers();
@@ -23,39 +22,17 @@ function Dashboard({ getUsers, users }) {
   };
 
   return (
-    <section className="container">
-      <MaterialTable
-        columns={dashboardColumns()}
-        data={users}
-        title=""
-        localization={localizationConfig()}
-        options={{
-          search: true,
-          exportButton: true,
-          paging: false,
-          actionsColumnIndex: -1
-        }}
-        actions={[
-          {
-            icon: 'add',
-            tooltip: '添加',
-            onClick: (event, rowData) => handleMore(rowData)
-          },
-          {
-            icon: 'more',
-            tooltip: '详情',
-            onClick: (event, rowData) => console.log(rowData)
-          }
-        ]}
+    <Fragment>
+      <Table
+        columns={dashboardColumns(setModalState)}
+        dataSource={users}
+        pagination={false}
       />
-      <Modal open={isModalOpen}>
-        <FormModal />
-      </Modal>
-    </section>
+    </Fragment>
   );
 }
 const mapStateToProps = state => ({
-  users: state.users.users
+  users: userListSelector(state.users.users)
 });
 
 export default connect(

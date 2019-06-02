@@ -19,14 +19,7 @@ const useStyles = makeStyles(theme => ({
 function FormModal() {
   const classes = useStyles();
 
-  return (
-    <div className={classes.container}>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="component-filled">Name</InputLabel>
-        <FilledInput id="component-filled" />
-      </FormControl>
-    </div>
-  );
+  return <div className={classes.container} />;
 }
 
 FormModal.propTypes = {};

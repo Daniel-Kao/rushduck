@@ -8,8 +8,8 @@ moment.locale('zh-cn');
 // 总览表格
 export const dashboardColumns = setModalState => [
   { title: '姓名', dataIndex: 'name' },
-  { title: '支出', dataIndex: 'lastMeal.meal' },
-  { title: '充值', dataIndex: 'lastMeal.topup' },
+  { title: '今日支出', dataIndex: 'lastMeal.meal' },
+  { title: '本周充值', dataIndex: 'lastMeal.topup' },
   { title: '余额', dataIndex: 'balance' },
   {
     title: '日期',

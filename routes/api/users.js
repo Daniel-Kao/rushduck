@@ -64,8 +64,37 @@ router.get('/', auth, async (req, res) => {
           _id: 1,
           name: 1,
           balance: 1,
-          lastMeal: { $arrayElemAt: ['$records', 0] },
-          key: '$_id'
+          records: {
+            $filter: {
+              input: '$records',
+              as: 'record',
+              cond: {
+                $gte: ['$$record.date', new Date(moment().startOf('isoWeek'))]
+              }
+            }
+          }
+        },
+        $project: {
+          _id: 1,
+          name: 1,
+          balance: 1,
+          topupByWeek: { $sum: '$records.topup' },
+          records: {
+            $filter: {
+              input: '$records',
+              as: 'record',
+              cond: {
+                $gte: ['$$record.date', new Date(moment().startOf('day'))]
+              }
+            }
+          }
+        },
+        $project: {
+          _id: 1,
+          name: 1,
+          balance: 1,
+          topupByWeek: 1,
+          mealByDay: { $sum: '$records.meal' }
         }
       }
     ]);

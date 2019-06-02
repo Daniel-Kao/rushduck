@@ -86,8 +86,8 @@ img {
   height: 100%;
 }
 
- /* Text Styles */
- .x-large {
+/* Text Styles */
+.x-large {
   font-size: 3rem;
 }
 
@@ -106,3 +106,14 @@ img {
   background: var(--dark-color);
   color: #fff;
 }
+.container {
+  max-width: 1100px;
+  margin: auto;
+  overflow: hidden;
+  padding: 0 2rem;
+  margin-top: 1.8rem;
+  margin-bottom: 3rem;
+}
+/* .MuiPaper-elevation2 {
+  box-shadow: none !important;
+} */

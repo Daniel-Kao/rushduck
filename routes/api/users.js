@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const moment = require('moment')
+const moment = require('moment');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator/check');
 
@@ -58,7 +58,19 @@ router.post(
 
 router.get('/', auth, async (req, res) => {
   try {
-    const users = await User.aggregate([{ $unwind: '$records' }, { $match: { "records.date": { $gte: new Date('1970-01-01T00:00:00.000Z') } } }])
+    const users = await User.aggregate([
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          balance: 1,
+          lastMeal: { $arrayElemAt: ['$records', 0] }
+        }
+      }
+    ]);
+    if (!users) {
+      return;
+    }
     res.json(users);
   } catch (err) {
     console.error(err.message);

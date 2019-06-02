@@ -1,15 +1,14 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Login from '../auth/Login';
-import Dashboard from "../table/Dashboard";
-
+import Dashboard from '../table/Dashboard';
 
 const Routes = () => {
   return (
-    <section className='container'>
+    <section className="container">
       <Switch>
-        <Route exact path='/login' component={Login} />
-        <Route exact path='/dashboard' component={Dashboard} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/dashboard" component={Dashboard} />
       </Switch>
     </section>
   );

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -21,10 +21,10 @@ const UserSchema = new mongoose.Schema({
       },
       date: {
         type: Date,
-        default: +new Date() + 8 * 60 * 60 * 1000
+        default: new Date()
       }
     }
   ]
-})
+});
 
-module.exports = User = mongoose.model('user', UserSchema)
+module.exports = User = mongoose.model('user', UserSchema);

@@ -1,20 +1,32 @@
 import { createSelector } from 'reselect';
 
 const getUserList = state => state;
+const getRecords = state => state.user ? state.user.records : null
 
 export const userListSelector = createSelector(
   getUserList,
   state => {
-    const final = state.reduce(
+    const lastItem = state.reduce(
       (total, current) => {
         total.balance += current.balance;
-        total.lastMeal.meal += current.lastMeal.meal
-        total.lastMeal.topup += current.lastMeal.topup
+        total.topups += current.topups
+        total.meal += current.meal
         return total;
       },
-      { balance: 0, lastMeal: {meal: 0, topup: 0}, key: '123' }
+      { balance: 0, meal: 0, topups: 0, key: '123' }
     );
-    final.name = '总计';
-    return [...state, final];
+    lastItem.name = '总计';
+    return [...state, lastItem];
   }
 );
+
+export const userRecordSelector = createSelector(
+  getRecords,
+  records => {
+    const newRecords = records.map(item => {
+      const key = item._id;
+      return { ...item, key }
+    })
+    return newRecords
+  }
+)

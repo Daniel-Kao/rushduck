@@ -76,25 +76,11 @@ router.get('/', auth, async (req, res) => {
         },
         $project: {
           _id: 1,
+          key: '$_id',
           name: 1,
           balance: 1,
-          topupByWeek: { $sum: '$records.topup' },
-          records: {
-            $filter: {
-              input: '$records',
-              as: 'record',
-              cond: {
-                $gte: ['$$record.date', new Date(moment().startOf('day'))]
-              }
-            }
-          }
-        },
-        $project: {
-          _id: 1,
-          name: 1,
-          balance: 1,
-          topupByWeek: 1,
-          mealByDay: { $sum: '$records.meal' }
+          topups: { $sum: '$records.topup' },
+          meal: { $sum: '$records.meal' }
         }
       }
     ]);
@@ -127,17 +113,18 @@ router.delete('/', auth, async (req, res) => {
 // @desc    get one user's recent expenses
 // @access  private
 
-router.get('/me', auth, async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   let { pageNum } = req.body;
   if (pageNum) {
     pageNum = (Number(pageNum) - 1) * 10;
   }
   try {
     const user = await User.findOne(
-      { name: req.body.name },
+      { _id: req.params.id },
       {
         name: 1,
         balance: 1,
+        key: 1,
         records: { $slice: [(0 + Number(pageNum)) * 10, 10] }
       }
     );

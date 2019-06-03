@@ -11,7 +11,6 @@ function Dashboard({ getUsers, users }) {
     isModalOpen: false
   });
 
-  console.log(users);
   const { isModalOpen } = state;
   useEffect(() => {
     getUsers();
@@ -31,7 +30,7 @@ function Dashboard({ getUsers, users }) {
     </Fragment>
   );
 }
-const mapStateToProps = state => ({
+const mapStateToProps = state => console.log(state.users.users) || ({
   users: userListSelector(state.users.users)
 });
 

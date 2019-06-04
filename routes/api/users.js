@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose')
 const router = express.Router();
 const moment = require('moment');
 const auth = require('../../middleware/auth');
@@ -115,28 +116,33 @@ router.delete('/', auth, async (req, res) => {
 
 router.get('/:id', auth, async (req, res) => {
   let { pageNum } = req.body;
+  let pageSize = 10
   if (pageNum) {
-    pageNum = (Number(pageNum) - 1) * 10;
-  }
+    pageNum = (pageNum - 1) * 10;
+  } else { pageNum = 0 }
   try {
-    const user = await User.findOne(
-      { _id: req.params.id },
+    const user = await User.aggregate([
+      { $match: { _id: mongoose.Types.ObjectId(req.params.id) } },
       {
-        name: 1,
-        balance: 1,
-        key: 1,
-        records: { $slice: [(0 + Number(pageNum)) * 10, 10] }
+        $project: {
+          name: 1,
+          balance: 1,
+          currentPage:
+            totalRecord: { $size: '$records' },
+      records: { $slice: ['$records', pageNum * pageSize, pageSize] }
+        }
       }
-    );
+    ]
+);
 
-    if (!user) {
-      return res.status(400).json({ msg: '该用户不存在' });
-    }
-    res.json(user);
+if (!user) {
+  return res.status(400).json({ msg: '该用户不存在' });
+}
+res.json(user);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
-  }
+  console.error(err.message);
+  res.status(500).send('Server error');
+}
 });
 
 module.exports = router;

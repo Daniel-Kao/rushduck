@@ -6,23 +6,36 @@ import { userRecordSelector } from '../../utils/reselector';
 
 import { detailColumns } from '../../utils/columns';
 
-function Dashboard({ location, getUser, records }) {
+function Dashboard({ location, getUser, users }) {
+
+  console.log(users)
 
   useEffect(() => {
     getUser(location.search.split('?')[1]);
   }, [getUser, location.search]);
 
+  const tableChange = (pagination) => {
+    console.log(pagination)
+  }
   return (
     <Fragment>
       <Table
         columns={detailColumns()}
-        dataSource={records}
+        dataSource={users.user ? users.user[0].records : null}
+        rowKey='_id'
+        onChange={this.tableChange}
+        pagination={{
+          pageSize: 10,
+          total: users.user && users.user[0].totalRecord,
+          current: 2
+        }}
+
       />
     </Fragment>
   );
 }
 const mapStateToProps = state => ({
-  records: userRecordSelector(state.users)
+  users: state.users
 });
 
 export default connect(

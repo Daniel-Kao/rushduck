@@ -1,11 +1,7 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
 import { Redirect } from 'react-router-dom';
-
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
 
 const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({

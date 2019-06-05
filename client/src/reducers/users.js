@@ -1,10 +1,15 @@
-import { GET_USERS, USERS_ERROR, GET_USERS_ME, USERS_ME_ERROR } from '../actions/types';
+import { GET_USERS, USERS_ERROR, GET_USERS_ME, USERS_ME_ERROR, SET_FORM_DATA } from '../actions/types';
 
 const initialState = {
   users: [],
   user: null,
   loading: true,
-  error: {}
+  error: {},
+  record: {
+    name: '',
+    expense: '',
+    topup: ''
+  }
 };
 
 export default function (state = initialState, action) {
@@ -30,6 +35,11 @@ export default function (state = initialState, action) {
         error: payload,
         loading: false
       };
+    case SET_FORM_DATA:
+      return {
+        ...state,
+        record: payload
+      }
     default:
       return state;
   }

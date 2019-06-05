@@ -28,7 +28,6 @@ export const dashboardColumns = setModalState => [
         {record.name !== '总计' ? '查看详情' : null}
       </Link >,
       <a
-        href='!#'
         key="添加"
         style={{ marginLeft: 15, marginRight: 15 }}
         onClick={() => setModalState(record)}

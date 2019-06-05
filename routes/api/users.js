@@ -114,35 +114,36 @@ router.delete('/', auth, async (req, res) => {
 // @desc    get one user's recent expenses
 // @access  private
 
-router.get('/:id', auth, async (req, res) => {
-  let { pageNum } = req.body;
-  let pageSize = 10
-  if (pageNum) {
-    pageNum = (pageNum - 1) * 10;
-  } else { pageNum = 0 }
+router.get('/me', auth, async (req, res) => {
+  const { pageNum, id } = req.query;
+  const pageSize = 10
   try {
     const user = await User.aggregate([
-      { $match: { _id: mongoose.Types.ObjectId(req.params.id) } },
+      { $match: { _id: mongoose.Types.ObjectId(id) } },
       {
         $project: {
           name: 1,
           balance: 1,
-          currentPage:
-            totalRecord: { $size: '$records' },
-      records: { $slice: ['$records', pageNum * pageSize, pageSize] }
+          totalRecords: { $size: '$records' },
+          records: { $slice: ['$records', pageSize * (pageNum - 1), pageSize] }
+        }
+      },
+      {
+        $addFields: {
+          currentPage: pageNum
         }
       }
     ]
-);
+    );
 
-if (!user) {
-  return res.status(400).json({ msg: '该用户不存在' });
-}
-res.json(user);
+    if (!user) {
+      return res.status(400).json({ msg: '该用户不存在' });
+    }
+    res.json(user);
   } catch (err) {
-  console.error(err.message);
-  res.status(500).send('Server error');
-}
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
 });
 
 module.exports = router;

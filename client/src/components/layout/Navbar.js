@@ -12,7 +12,7 @@ const Navbar = () => {
           <Link to="/login">登 陆</Link>
         </li>
         <li>
-          <Link to="!#">注销</Link>
+          <Link to="!#">注 销</Link>
         </li>
       </ul>
     </nav>
